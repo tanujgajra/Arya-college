@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Student{% endblock %}
+
+{% block content %}
+
+<div class="form-card card">
+
+    <!-- ========================================================
+         PAGE TITLE
+         ======================================================== -->
+    <h1>Edit Student</h1>
+
+    <p class="muted">
+        Update student information.
+    </p>
+
+
+    <!-- ========================================================
+         ERROR MESSAGE
+         ======================================================== -->
+    {% if error %}
+        <div class="alert error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+
+    <!-- ========================================================
+         EDIT STUDENT FORM
+         ======================================================== -->
+    <form method="post" class="two-col-form">
+
+
+        <!-- FULL NAME -->
+        <div>
+
+            <label>Full Name</label>
+
+            <input
+                name="name"
+                value="{{ student['name'] }}"
+                required
+            >
+
+        </div>
+
+
+        <!-- ROLL NUMBER -->
+        <div>
+
+            <label>Roll Number</label>
+
+            <input
+                name="roll_no"
+                value="{{ student['roll_no'] }}"
+                required
+            >
+
+        </div>
+
+
+        <!-- COLLEGE EMAIL -->
+        <div>
+
+            <label>College Email</label>
+
+            <input
+                name="email"
+                type="email"
+                value="{{ student['email'] }}"
+                required
+            >
+
+        </div>
+
+
+        <!-- PASSWORD -->
+        <div>
+
+            <label>New Password</label>
+
+            <input
+                name="password"
+                type="password"
+                placeholder="Leave empty to keep old password"
+            >
+
+        </div>
+
+
+        <!-- COURSE -->
+        <div>
+
+            <label>Course</label>
+
+            <input
+                name="course"
+                value="{{ student['course'] }}"
+                required
+            >
+
+        </div>
+
+
+        <!-- YEAR -->
+        <div>
+
+            <label>Year</label>
+
+            <select name="year" required>
+
+                <option
+                    value="1st Year"
+                    {% if student['year'] == '1st Year' %}selected{% endif %}
+                >
+                    1st Year
+                </option>
+
+                <option
+                    value="2nd Year"
+                    {% if student['year'] == '2nd Year' %}selected{% endif %}
+                >
+                    2nd Year
+                </option>
+
+                <option
+                    value="3rd Year"
+                    {% if student['year'] == '3rd Year' %}selected{% endif %}
+                >
+                    3rd Year
+                </option>
+
+                <option
+                    value="4th Year"
+                    {% if student['year'] == '4th Year' %}selected{% endif %}
+                >
+                    4th Year
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- SECTION -->
+        <div>
+
+            <label>Section</label>
+
+            <input
+                name="section"
+                value="{{ student['section'] }}"
+                required
+            >
+
+        </div>
+
+
+        <!-- PHONE -->
+        <div>
+
+            <label>Phone</label>
+
+            <input
+                name="phone"
+                value="{{ student['phone'] or '' }}"
+            >
+
+        </div>
+
+
+        <!-- BUTTONS -->
+        <div class="form-actions">
+
+            <button
+                class="btn primary"
+                type="submit"
+            >
+                Save Changes
+            </button>
+
+            <a
+                class="btn secondary"
+                href="{{ url_for('students') }}"
+            >
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

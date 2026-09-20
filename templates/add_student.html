@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block title %}Add Student{% endblock %} {% block
+content %}
+<div class="form-card card">
+  <h1>Add New Student</h1>
+  {% if error %}
+  <div class="alert error">{{ error }}</div>
+  {% endif %}
+  <form method="post" class="two-col-form">
+    <div><label>Full Name</label><input name="name" required /></div>
+    <div><label>Roll Number</label><input name="roll_no" required /></div>
+    <div>
+      <label>College Email</label><input name="email" type="email" required />
+    </div>
+    <div>
+      <label>Initial Password</label
+      ><input name="password" type="password" required />
+    </div>
+    <div>
+      <label>Course</label><input name="course" value="B.Tech CSE" required />
+    </div>
+    <div>
+      <label>Year</label
+      ><select name="year" required>
+        <option>1st Year</option>
+        <option>2nd Year</option>
+        <option>3rd Year</option>
+        <option>4th Year</option>
+      </select>
+    </div>
+    <div><label>Section</label><input name="section" value="A" required /></div>
+    <div><label>Phone</label><input name="phone" /></div>
+    <div class="form-actions">
+      <button class="btn primary" type="submit">Add Student</button
+      ><a class="btn secondary" href="{{ url_for('students') }}">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

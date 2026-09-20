@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Login - College Attendance System{% endblock %}
+{% block content %}
+<div class="login-card">
+    <h1>Welcome</h1>
+    <p class="muted">Select your college and login as Admin or Student.</p>
+
+    {% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+
+    <form method="post">
+        <label>State</label>
+        <select id="state_id" name="state_id" required>
+            <option value="">Select State</option>
+        </select>
+
+        <label>College</label>
+        <select id="college_id" name="college_id" required disabled>
+            <option value="">Select College</option>
+        </select>
+
+        <div class="role-tabs">
+            <label class="radio-label"><input type="radio" name="role" value="student" checked> Student</label>
+            <label class="radio-label"><input type="radio" name="role" value="admin"> Admin</label>
+        </div>
+
+        <div id="student-method-box">
+            <label>Student Login Method</label>
+            <select name="login_method" id="login_method">
+                <option value="email">College Gmail / Email</option>
+                <option value="roll_no">Roll Number</option>
+            </select>
+        </div>
+
+        <label id="identifier-label">College Email</label>
+        <input type="text" name="identifier" id="identifier" placeholder="student@college.com" required>
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter password" required>
+
+        <button type="submit" class="btn primary">Login</button>
+    </form>
+
+    <div class="demo-box">
+        <strong>Demo account</strong><br>
+        Student: 23CSE101 / Student@123<br>
+        Admin: admin@demo-college.com / Admin@123<br>
+        College: Arya College of Engineering &amp; IT, Rajasthan
+    </div>
+</div>
+<script>
+async function loadStates() {
+    const stateSelect = document.getElementById('state_id');
+    const response = await fetch('/api/states');
+    const states = await response.json();
+    states.forEach(state => {
+        const option = document.createElement('option');
+        option.value = state.id;
+        option.textContent = state.name;
+        stateSelect.appendChild(option);
+    });
+}
+
+async function loadColleges(stateId) {
+    const collegeSelect = document.getElementById('college_id');
+    collegeSelect.innerHTML = '<option value="">Select College</option>';
+    collegeSelect.disabled = !stateId;
+    if (!stateId) return;
+
+    const response = await fetch(`/api/colleges/${stateId}`);
+    const colleges = await response.json();
+    colleges.forEach(college => {
+        const option = document.createElement('option');
+        option.value = college.id;
+        option.textContent = college.name;
+        collegeSelect.appendChild(option);
+    });
+}
+
+document.getElementById('state_id').addEventListener('change', e => loadColleges(e.target.value));
+
+function updateLoginMode() {
+    const role = document.querySelector('input[name="role"]:checked').value;
+    const box = document.getElementById('student-method-box');
+    const label = document.getElementById('identifier-label');
+    const input = document.getElementById('identifier');
+
+    if (role === 'admin') {
+        box.style.display = 'none';
+        label.textContent = 'Admin College Email';
+        input.placeholder = 'admin@college.com';
+    } else {
+        box.style.display = 'block';
+        const method = document.getElementById('login_method').value;
+        label.textContent = method === 'email' ? 'College Email' : 'Roll Number';
+        input.placeholder = method === 'email' ? 'student@college.com' : '23CSE101';
+    }
+}
+
+document.querySelectorAll('input[name="role"]').forEach(r => r.addEventListener('change', updateLoginMode));
+document.getElementById('login_method').addEventListener('change', updateLoginMode);
+updateLoginMode();
+loadStates();
+</script>
+{% endblock %}

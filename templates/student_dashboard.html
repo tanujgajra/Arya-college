@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard{% endblock %}
+{% block content %}
+<h1>Student Dashboard</h1>
+<p class="muted">{{ college['college_name'] }} — {{ college['state_name'] }}</p>
+<div class="profile card">
+    <h2>My Profile</h2>
+    <div class="profile-grid">
+        <p><span>Name</span><strong>{{ student['name'] }}</strong></p>
+        <p><span>Roll No.</span><strong>{{ student['roll_no'] }}</strong></p>
+        <p><span>Email</span><strong>{{ student['email'] }}</strong></p>
+        <p><span>Course</span><strong>{{ student['course'] }}</strong></p>
+        <p><span>Year</span><strong>{{ student['year'] }}</strong></p>
+        <p><span>Section</span><strong>{{ student['section'] }}</strong></p>
+        <p><span>Phone</span><strong>{{ student['phone'] or '-' }}</strong></p>
+    </div>
+</div>
+<div class="coming-soon card">
+    <h2>Attendance</h2>
+    <p>Attendance records will be added in the next module.</p>
+</div>
+{% endblock %}
