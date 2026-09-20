@@ -1,38 +1,78 @@
-{% extends "base.html" %} {% block title %}Add Student{% endblock %} {% block
-content %}
-<div class="form-card card">
-  <h1>Add New Student</h1>
-  {% if error %}
-  <div class="alert error">{{ error }}</div>
-  {% endif %}
-  <form method="post" class="two-col-form">
-    <div><label>Full Name</label><input name="name" required /></div>
-    <div><label>Roll Number</label><input name="roll_no" required /></div>
+{% extends "base.html" %} {% block title %}Add Student | Arya College{% endblock
+%} {% block page_title %}Add Student{% endblock %} {% block content %}
+<div class="form-page-head">
+  <div>
+    <div class="eyebrow accent-green">Student management</div>
+    <h1 class="page-title">Create student profile</h1>
+    <p class="page-lead">
+      Enter the student's core academic and contact information.
+    </p>
+  </div>
+  <a class="btn btn-soft" href="{{ url_for('students') }}">← Back</a>
+</div>
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+<section class="surface form-surface">
+  <div class="section-head">
     <div>
-      <label>College Email</label><input name="email" type="email" required />
+      <h2>Student information</h2>
+      <p>All fields marked required must be completed.</p>
     </div>
-    <div>
-      <label>Initial Password</label
-      ><input name="password" type="password" required />
+    <span class="status-badge green">NEW RECORD</span>
+  </div>
+  <form method="POST" class="form-grid">
+    <div class="field-group wide">
+      <label>Full Name</label
+      ><input name="name" required placeholder="Student full name" />
     </div>
-    <div>
-      <label>Course</label><input name="course" value="B.Tech CSE" required />
+    <div class="field-group">
+      <label>Roll Number</label
+      ><input name="roll_no" required placeholder="23CSE101" />
     </div>
-    <div>
+    <div class="field-group">
+      <label>College Email</label
+      ><input
+        name="email"
+        type="email"
+        required
+        placeholder="student@college.com"
+      />
+    </div>
+    <div class="field-group">
+      <label>Password</label
+      ><input
+        name="password"
+        type="password"
+        required
+        placeholder="Create login password"
+      />
+    </div>
+    <div class="field-group">
+      <label>Phone</label
+      ><input name="phone" placeholder="10-digit mobile number" />
+    </div>
+    <div class="field-group">
+      <label>Course</label
+      ><input name="course" required placeholder="B.Tech CSE" />
+    </div>
+    <div class="field-group">
       <label>Year</label
       ><select name="year" required>
+        <option value="">Select year</option>
         <option>1st Year</option>
         <option>2nd Year</option>
         <option>3rd Year</option>
         <option>4th Year</option>
       </select>
     </div>
-    <div><label>Section</label><input name="section" value="A" required /></div>
-    <div><label>Phone</label><input name="phone" /></div>
+    <div class="field-group">
+      <label>Section</label><input name="section" required placeholder="A" />
+    </div>
     <div class="form-actions">
-      <button class="btn primary" type="submit">Add Student</button
-      ><a class="btn secondary" href="{{ url_for('students') }}">Cancel</a>
+      <a class="btn btn-soft" href="{{ url_for('students') }}">Cancel</a
+      ><button class="btn btn-primary" type="submit">Create Student →</button>
     </div>
   </form>
-</div>
+</section>
 {% endblock %}

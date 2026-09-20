@@ -1,0 +1,31 @@
+{% extends "base.html" %}{% block title %}Edit Department | Arya College{%
+endblock %}{% block page_title %}Edit Department{% endblock %}{% block content
+%}
+<div class="form-page-head">
+  <div>
+    <div class="eyebrow accent-violet">Academic structure</div>
+    <h1 class="page-title">Edit department</h1>
+    <p class="page-lead">Update department naming or code.</p>
+  </div>
+  <a class="btn btn-soft" href="{{ url_for('departments') }}">← Back</a>
+</div>
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+<section class="surface form-surface">
+  <form method="POST" class="form-grid">
+    <div class="field-group wide">
+      <label>Department Name</label
+      ><input name="name" value="{{ department['name'] }}" required />
+    </div>
+    <div class="field-group">
+      <label>Department Code</label
+      ><input name="code" value="{{ department['code'] }}" required />
+    </div>
+    <div class="form-actions">
+      <a class="btn btn-soft" href="{{ url_for('departments') }}">Cancel</a
+      ><button class="btn btn-primary" type="submit">Save Changes →</button>
+    </div>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "base.html" %}{% block title %}Teacher Assignments | Arya College{%
+endblock %}{% block page_title %}Teacher Assignment{% endblock %}{% block
+content %}
+<div class="hero-row">
+  <div>
+    <div class="eyebrow accent-red">Academic mapping</div>
+    <h1 class="page-title">Teacher assignments</h1>
+    <p class="page-lead">
+      Map teachers to subjects and specific sections for each academic session.
+    </p>
+  </div>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="{{ url_for('add_teacher_assignment') }}"
+      >+ New Assignment</a
+    >
+  </div>
+</div>
+<section class="surface">
+  <div class="section-head">
+    <div>
+      <h2>Assignment directory</h2>
+      <p>Teacher → Subject → Department → Section → Session</p>
+    </div>
+    <span class="status-badge red">{{ assignments|length }} TOTAL</span>
+  </div>
+  {% if assignments %}
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Teacher</th>
+          <th>Subject</th>
+          <th>Department</th>
+          <th>Class</th>
+          <th>Session</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for assignment in assignments %}
+        <tr>
+          <td>
+            <div class="person-cell">
+              <span class="table-avatar red"
+                >{{ assignment.teacher_name[0]|upper }}</span
+              >
+              <div>
+                <strong>{{ assignment.teacher_name }}</strong
+                ><small
+                  >{{ assignment.employee_code }} · {{ assignment.designation
+                  }}</small
+                >
+              </div>
+            </div>
+          </td>
+          <td>
+            <strong>{{ assignment.subject_name }}</strong
+            ><small class="table-sub">{{ assignment.subject_code }}</small>
+          </td>
+          <td>
+            <strong>{{ assignment.department_name }}</strong
+            ><small class="table-sub">{{ assignment.department_code }}</small>
+          </td>
+          <td>
+            <span class="pill amber">{{ assignment.section_name }}</span
+            ><small class="table-sub"
+              >{{ assignment.year }} · {{ assignment.semester }}</small
+            >
+          </td>
+          <td>
+            <span class="code-chip">{{ assignment.academic_session }}</span>
+          </td>
+          <td>
+            <div class="row-actions">
+              <a
+                class="btn btn-soft btn-sm"
+                href="{{ url_for('edit_teacher_assignment', assignment_id=assignment.id) }}"
+                >Edit</a
+              >
+              <form
+                method="POST"
+                action="{{ url_for('delete_teacher_assignment', assignment_id=assignment.id) }}"
+                onsubmit="return confirm('Delete this teacher assignment?');"
+              >
+                <button class="btn btn-danger btn-sm" type="submit">
+                  Delete
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon red">TA</div>
+    <h3>No assignments yet</h3>
+    <p>Create your first teacher → subject → section mapping.</p>
+    <a class="btn btn-primary" href="{{ url_for('add_teacher_assignment') }}"
+      >New Assignment</a
+    >
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

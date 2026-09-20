@@ -1,111 +1,105 @@
-{% extends "base.html" %}
-
-{% block title %}Students{% endblock %}
-
-{% block content %}
-
-<!-- ============================================================
-     PAGE HEADER
-     ============================================================ -->
-<div class="page-head">
-
+{% extends "base.html" %} {% block title %}Students | Arya College{% endblock %}
+{% block page_title %}Students{% endblock %} {% block content %}
+<div class="hero-row">
+  <div>
+    <div class="eyebrow accent-green">Academic directory</div>
+    <h1 class="page-title">Students</h1>
+    <p class="page-lead">
+      Manage student identity, contact and course information from one place.
+    </p>
+  </div>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="{{ url_for('add_student') }}"
+      >+ Add Student</a
+    >
+  </div>
+</div>
+<section class="surface">
+  <div class="table-toolbar">
     <div>
-        <h1>Students</h1>
-        <p class="muted">
-            Manage students in your selected college.
-        </p>
+      <strong>{{ students|length }}</strong><span> student records</span>
     </div>
-
-    <a class="btn primary" href="{{ url_for('add_student') }}">
-        + Add Student
-    </a>
-
-</div>
-
-
-<!-- ============================================================
-     STUDENT TABLE
-     ============================================================ -->
-<div class="table-wrap card">
-
-    <table>
-
-        <thead>
-            <tr>
-                <th>Roll No.</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Course</th>
-                <th>Year</th>
-                <th>Section</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-
-        <tbody>
-
+    <input
+      class="table-search"
+      id="tableSearch"
+      placeholder="Search name, roll no or course..."
+    />
+  </div>
+  {% if students %}
+  <div class="table-wrap">
+    <table class="data-table" id="studentTable">
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Roll No.</th>
+          <th>Course</th>
+          <th>Year</th>
+          <th>Section</th>
+          <th>Contact</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
         {% for student in students %}
-
-            <tr>
-
-                <td>{{ student['roll_no'] }}</td>
-
-                <td>{{ student['name'] }}</td>
-
-                <td>{{ student['email'] }}</td>
-
-                <td>{{ student['course'] }}</td>
-
-                <td>{{ student['year'] }}</td>
-
-                <td>{{ student['section'] }}</td>
-
-                <td>
-
-                    <!-- EDIT BUTTON -->
-                    <a
-                        class="btn small edit-btn"
-                        href="{{ url_for('edit_student', student_id=student['id']) }}"
-                    >
-                        Edit
-                    </a>
-
-
-                    <!-- DELETE BUTTON -->
-                    <form
-                        method="post"
-                        action="{{ url_for('delete_student', student_id=student['id']) }}"
-                        style="display:inline;"
-                        onsubmit="return confirm('Are you sure you want to delete this student?');"
-                    >
-
-                        <button
-                            type="submit"
-                            class="btn small danger"
-                        >
-                            Delete
-                        </button>
-
-                    </form>
-
-                </td>
-
-            </tr>
-
-        {% else %}
-
-            <tr>
-                <td colspan="7">
-                    No students found.
-                </td>
-            </tr>
-
+        <tr>
+          <td>
+            <div class="person-cell">
+              <span class="table-avatar">{{ student.name[0]|upper }}</span>
+              <div>
+                <strong>{{ student.name }}</strong
+                ><small>{{ student.email }}</small>
+              </div>
+            </div>
+          </td>
+          <td><span class="code-chip">{{ student.roll_no }}</span></td>
+          <td>{{ student.course }}</td>
+          <td>{{ student.year }}</td>
+          <td><span class="pill amber">Section {{ student.section }}</span></td>
+          <td>{{ student.email }}</td>
+          <td>
+            <div class="row-actions">
+              <a
+                class="btn btn-soft btn-sm"
+                href="{{ url_for('edit_student', student_id=student.id) }}"
+                >Edit</a
+              >
+              <form
+                method="POST"
+                action="{{ url_for('delete_student', student_id=student.id) }}"
+                onsubmit="return confirm('Delete this student?');"
+              >
+                <button class="btn btn-danger btn-sm" type="submit">
+                  Delete
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
         {% endfor %}
-
-        </tbody>
-
+      </tbody>
     </table>
-
-</div>
-
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon green">ST</div>
+    <h3>No students yet</h3>
+    <p>Add the first student to start your directory.</p>
+    <a class="btn btn-primary" href="{{ url_for('add_student') }}"
+      >Add Student</a
+    >
+  </div>
+  {% endif %}
+</section>
+{% endblock %} {% block scripts %}
+<script>
+  const s = document.getElementById("tableSearch");
+  const rows = document.querySelectorAll("#studentTable tbody tr");
+  s?.addEventListener("input", () => {
+    const q = s.value.toLowerCase();
+    rows.forEach(
+      (r) =>
+        (r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none"),
+    );
+  });
+</script>
 {% endblock %}

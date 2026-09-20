@@ -1,0 +1,36 @@
+{% extends "base.html" %}{% block title %}Add Department | Arya College{%
+endblock %}{% block page_title %}Add Department{% endblock %}{% block content %}
+<div class="form-page-head">
+  <div>
+    <div class="eyebrow accent-violet">Academic structure</div>
+    <h1 class="page-title">Create department</h1>
+    <p class="page-lead">Add an academic branch to your college structure.</p>
+  </div>
+  <a class="btn btn-soft" href="{{ url_for('departments') }}">← Back</a>
+</div>
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+<section class="surface form-surface">
+  <form method="POST" class="form-grid">
+    <div class="field-group wide">
+      <label>Department Name</label
+      ><input
+        name="name"
+        required
+        placeholder="Computer Science & Engineering"
+      />
+    </div>
+    <div class="field-group">
+      <label>Department Code</label
+      ><input name="code" required placeholder="CSE" />
+    </div>
+    <div class="form-actions">
+      <a class="btn btn-soft" href="{{ url_for('departments') }}">Cancel</a
+      ><button class="btn btn-primary" type="submit">
+        Create Department →
+      </button>
+    </div>
+  </form>
+</section>
+{% endblock %}

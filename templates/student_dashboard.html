@@ -1,22 +1,50 @@
-{% extends "base.html" %}
-{% block title %}Student Dashboard{% endblock %}
-{% block content %}
-<h1>Student Dashboard</h1>
-<p class="muted">{{ college['college_name'] }} — {{ college['state_name'] }}</p>
-<div class="profile card">
-    <h2>My Profile</h2>
-    <div class="profile-grid">
-        <p><span>Name</span><strong>{{ student['name'] }}</strong></p>
-        <p><span>Roll No.</span><strong>{{ student['roll_no'] }}</strong></p>
-        <p><span>Email</span><strong>{{ student['email'] }}</strong></p>
-        <p><span>Course</span><strong>{{ student['course'] }}</strong></p>
-        <p><span>Year</span><strong>{{ student['year'] }}</strong></p>
-        <p><span>Section</span><strong>{{ student['section'] }}</strong></p>
-        <p><span>Phone</span><strong>{{ student['phone'] or '-' }}</strong></p>
-    </div>
+{% extends "base.html" %} {% block title %}Student Dashboard | Arya College{%
+endblock %} {% block page_title %}Student Dashboard{% endblock %} {% block
+content %}
+<div class="hero-row">
+  <div>
+    <div class="eyebrow accent-cyan">Student workspace</div>
+    <h1 class="page-title">Welcome, {{ student['name'] }}.</h1>
+    <p class="page-lead">
+      Your academic workspace is ready. Attendance, marks and progress modules
+      will appear here as they are connected.
+    </p>
+  </div>
 </div>
-<div class="coming-soon card">
-    <h2>Attendance</h2>
-    <p>Attendance records will be added in the next module.</p>
+<div class="profile-layout">
+  <section class="surface profile-card">
+    <div class="profile-hero">
+      <div class="big-avatar">{{ student['name'][0]|upper }}</div>
+      <div>
+        <div class="eyebrow accent-green">Student profile</div>
+        <h2>{{ student['name'] }}</h2>
+        <p>
+          {{ student['course'] }} · {{ student['year'] }} · Section {{
+          student['section'] }}
+        </p>
+      </div>
+    </div>
+    <div class="profile-details">
+      <div>
+        <small>Roll Number</small><strong>{{ student['roll_no'] }}</strong>
+      </div>
+      <div>
+        <small>College Email</small><strong>{{ student['email'] }}</strong>
+      </div>
+      <div>
+        <small>Phone</small
+        ><strong>{{ student['phone'] or 'Not added' }}</strong>
+      </div>
+    </div>
+  </section>
+  <aside class="surface notice-card">
+    <div class="eyebrow accent-amber">Coming next</div>
+    <h2>Academic view</h2>
+    <p>
+      Daily attendance, subject-wise percentage, marks and progress report
+      modules will be connected after the teacher workflow is complete.
+    </p>
+    <span class="status-badge amber">IN DEVELOPMENT</span>
+  </aside>
 </div>
 {% endblock %}

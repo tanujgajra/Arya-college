@@ -1,28 +1,154 @@
-{% extends "base.html" %} {% block title %}Admin Dashboard{% endblock %} {%
-block content %}
-<h1>Admin Dashboard</h1>
-<p class="muted">{{ college['college_name'] }} — {{ college['state_name'] }}</p>
-<div class="grid three">
-  <div class="stat-card">
-    <span>Students</span><strong>{{ student_count }}</strong>
+{% extends "base.html" %} {% block title %}Admin Dashboard | Arya College{%
+endblock %} {% block page_title %}Admin Dashboard{% endblock %} {% block content
+%}
+<div class="hero-row">
+  <div>
+    <div class="eyebrow accent-green">Control centre</div>
+    <h1 class="page-title">
+      Good to see you, {{ session.get('user_name','Admin') }}.
+    </h1>
+    <p class="page-lead">
+      Here is the current snapshot of your college workspace. Use the modules
+      below to manage academic data.
+    </p>
   </div>
-  <div class="stat-card">
-    <span>Subjects</span><strong>{{ subject_count }}</strong>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="{{ url_for('add_student') }}"
+      >+ Add Student</a
+    ><a class="btn btn-soft" href="{{ url_for('add_employee') }}"
+      >+ Add Employee</a
+    >
   </div>
-  <div class="stat-card"><span>Role</span><strong>Admin</strong></div>
 </div>
-<div class="card-grid">
-  <a class="feature-card" href="{{ url_for('students') }}"
-    ><h3>Students</h3>
-    <p>View all students.</p></a
-  >
-  <a class="feature-card" href="{{ url_for('add_student') }}"
-    ><h3>Add Student</h3>
-    <p>Create a student account.</p></a
-  >
-  <a class="feature-card" href="{{ url_for('subjects') }}"
-    ><h3>Subjects</h3>
-    <p>Add and manage subjects.</p></a
-  >
+
+<div class="stats-grid">
+  <a class="stat-card tone-green" href="{{ url_for('students') }}"
+    ><div class="stat-top"><span>Students</span><b>01</b></div>
+    <strong>{{ student_count }}</strong
+    ><small>Registered student profiles</small>
+    <div class="stat-strip"></div
+  ></a>
+  <a class="stat-card tone-cyan" href="{{ url_for('employees') }}"
+    ><div class="stat-top"><span>Employees</span><b>02</b></div>
+    <strong>{{ employee_count }}</strong><small>Faculty & staff records</small>
+    <div class="stat-strip"></div
+  ></a>
+  <a class="stat-card tone-amber" href="{{ url_for('subjects') }}"
+    ><div class="stat-top"><span>Subjects</span><b>03</b></div>
+    <strong>{{ subject_count }}</strong
+    ><small>Configured academic subjects</small>
+    <div class="stat-strip"></div
+  ></a>
+  <a class="stat-card tone-violet" href="{{ url_for('departments') }}"
+    ><div class="stat-top"><span>Departments</span><b>04</b></div>
+    <strong>{{ department_count }}</strong><small>Academic departments</small>
+    <div class="stat-strip"></div
+  ></a>
+  <a class="stat-card tone-pink" href="{{ url_for('sections') }}"
+    ><div class="stat-top"><span>Sections</span><b>05</b></div>
+    <strong>{{ section_count }}</strong><small>Active class sections</small>
+    <div class="stat-strip"></div
+  ></a>
+</div>
+
+<div class="dashboard-grid">
+  <section class="surface large-panel">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow accent-cyan">Core modules</div>
+        <h2>College management</h2>
+        <p>Everything you can control today.</p>
+      </div>
+      <span class="status-badge green">LIVE</span>
+    </div>
+    <div class="module-grid">
+      <a class="module-card tone-green" href="{{ url_for('students') }}"
+        ><span class="module-index">01</span><i>ST</i>
+        <h3>Students</h3>
+        <p>Profiles, roll numbers, contact details and academic information.</p>
+        <span class="module-link">Open module →</span></a
+      >
+      <a class="module-card tone-cyan" href="{{ url_for('subjects') }}"
+        ><span class="module-index">02</span><i>SB</i>
+        <h3>Subjects</h3>
+        <p>Create and maintain subject names and subject codes.</p>
+        <span class="module-link">Open module →</span></a
+      >
+      <a class="module-card tone-amber" href="{{ url_for('employees') }}"
+        ><span class="module-index">03</span><i>EM</i>
+        <h3>Employees</h3>
+        <p>Manage faculty and staff profiles, roles and responsibilities.</p>
+        <span class="module-link">Open module →</span></a
+      >
+      <a class="module-card tone-violet" href="{{ url_for('departments') }}"
+        ><span class="module-index">04</span><i>DP</i>
+        <h3>Departments</h3>
+        <p>Build the academic structure of the college.</p>
+        <span class="module-link">Open module →</span></a
+      >
+      <a class="module-card tone-pink" href="{{ url_for('sections') }}"
+        ><span class="module-index">05</span><i>SC</i>
+        <h3>Sections</h3>
+        <p>Define year, semester and section-wise academic groups.</p>
+        <span class="module-link">Open module →</span></a
+      >
+      <a
+        class="module-card tone-red"
+        href="{{ url_for('teacher_assignments') }}"
+        ><span class="module-index">06</span><i>TA</i>
+        <h3>Teacher Assignment</h3>
+        <p>Map a teacher to a subject and a specific section.</p>
+        <span class="module-link">Open module →</span></a
+      >
+    </div>
+  </section>
+
+  <aside class="surface side-panel">
+    <div class="section-head compact">
+      <div>
+        <div class="eyebrow accent-amber">System roadmap</div>
+        <h2>Next modules</h2>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <span class="roadmap-num green">01</span>
+      <div>
+        <strong>Daily Attendance</strong
+        ><small>Teacher-based Present / Absent marking</small>
+      </div>
+      <span class="roadmap-tag">NEXT</span>
+    </div>
+    <div class="roadmap-item">
+      <span class="roadmap-num cyan">02</span>
+      <div>
+        <strong>Attendance Reports</strong
+        ><small>Weekly, monthly and subject-wise views</small>
+      </div>
+      <span class="roadmap-tag">NEXT</span>
+    </div>
+    <div class="roadmap-item">
+      <span class="roadmap-num amber">03</span>
+      <div>
+        <strong>Marks & Exams</strong
+        ><small>Midterms, quizzes, practicals and external</small>
+      </div>
+      <span class="roadmap-tag">NEXT</span>
+    </div>
+    <div class="roadmap-item">
+      <span class="roadmap-num violet">04</span>
+      <div>
+        <strong>Progress Reports</strong
+        ><small>Combined academic overview for students</small>
+      </div>
+      <span class="roadmap-tag">NEXT</span>
+    </div>
+    <div class="mini-note">
+      <strong>Foundation status</strong>
+      <p>
+        Database, roles, departments, sections and teacher mapping are already
+        connected.
+      </p>
+    </div>
+  </aside>
 </div>
 {% endblock %}

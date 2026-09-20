@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block title %}Edit Subject | Arya College{%
+endblock %} {% block page_title %}Edit Subject{% endblock %} {% block content %}
+<div class="form-page-head">
+  <div>
+    <div class="eyebrow accent-amber">Academic directory</div>
+    <h1 class="page-title">Edit subject</h1>
+    <p class="page-lead">Update the subject name or its catalogue code.</p>
+  </div>
+  <a class="btn btn-soft" href="{{ url_for('subjects') }}">← Back</a>
+</div>
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+<section class="surface form-surface">
+  <form method="POST" class="form-grid">
+    <div class="field-group wide">
+      <label>Subject Name</label
+      ><input
+        name="subject_name"
+        value="{{ subject['subject_name'] }}"
+        required
+      />
+    </div>
+    <div class="field-group">
+      <label>Subject Code</label
+      ><input
+        name="subject_code"
+        value="{{ subject['subject_code'] }}"
+        required
+      />
+    </div>
+    <div class="form-actions">
+      <a class="btn btn-soft" href="{{ url_for('subjects') }}">Cancel</a
+      ><button class="btn btn-primary" type="submit">Save Changes →</button>
+    </div>
+  </form>
+</section>
+{% endblock %}

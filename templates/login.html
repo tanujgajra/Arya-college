@@ -1,104 +1,244 @@
-{% extends "base.html" %}
-{% block title %}Login - College Attendance System{% endblock %}
-{% block content %}
-<div class="login-card">
-    <h1>Welcome</h1>
-    <p class="muted">Select your college and login as Admin or Student.</p>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign In | Arya College</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body class="login-body">
+    <div class="login-orb orb-1"></div>
+    <div class="login-orb orb-2"></div>
+    <div class="login-grid"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
 
-    {% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+    <main class="login-layout">
+      <section class="login-showcase">
+        <a href="#" class="login-brand">
+          <span class="brand-logo">A</span>
+          <span
+            ><strong>ARYA COLLEGE</strong><small>Management System</small></span
+          >
+        </a>
 
-    <form method="post">
-        <label>State</label>
-        <select id="state_id" name="state_id" required>
-            <option value="">Select State</option>
-        </select>
-
-        <label>College</label>
-        <select id="college_id" name="college_id" required disabled>
-            <option value="">Select College</option>
-        </select>
-
-        <div class="role-tabs">
-            <label class="radio-label"><input type="radio" name="role" value="student" checked> Student</label>
-            <label class="radio-label"><input type="radio" name="role" value="admin"> Admin</label>
+        <div class="showcase-copy">
+          <div class="eyebrow accent-cyan">One system. Every classroom.</div>
+          <h1>Manage the campus.<br /><span>Track the progress.</span></h1>
+          <p>
+            A modern control centre for student records, faculty, subjects,
+            academic structure and attendance workflows.
+          </p>
         </div>
 
-        <div id="student-method-box">
-            <label>Student Login Method</label>
-            <select name="login_method" id="login_method">
-                <option value="email">College Gmail / Email</option>
-                <option value="roll_no">Roll Number</option>
-            </select>
+        <div class="feature-grid">
+          <div class="feature-tile green">
+            <b>01</b><span>Student Records</span
+            ><small>Profiles, roll numbers and academic data</small>
+          </div>
+          <div class="feature-tile cyan">
+            <b>02</b><span>Academic Setup</span
+            ><small>Departments, sections and subjects</small>
+          </div>
+          <div class="feature-tile amber">
+            <b>03</b><span>Faculty Control</span
+            ><small>Employees and teacher mapping</small>
+          </div>
+          <div class="feature-tile violet">
+            <b>04</b><span>Attendance Engine</span
+            ><small>Daily marking and reports next</small>
+          </div>
         </div>
 
-        <label id="identifier-label">College Email</label>
-        <input type="text" name="identifier" id="identifier" placeholder="student@college.com" required>
+        <div class="showcase-footer">
+          <span class="live-dot"></span> Local development environment
+          <span>•</span> Secure session login
+        </div>
+      </section>
 
-        <label>Password</label>
-        <input type="password" name="password" placeholder="Enter password" required>
+      <section class="login-panel">
+        <div class="login-card">
+          <div class="login-card-head">
+            <div class="eyebrow">Secure access</div>
+            <h2>Welcome back</h2>
+            <p>Sign in to continue to your college workspace.</p>
+          </div>
 
-        <button type="submit" class="btn primary">Login</button>
-    </form>
+          {% if error %}
+          <div class="alert alert-error">{{ error }}</div>
+          {% endif %}
 
-    <div class="demo-box">
-        <strong>Demo account</strong><br>
-        Student: 23CSE101 / Student@123<br>
-        Admin: admin@demo-college.com / Admin@123<br>
-        College: Arya College of Engineering &amp; IT, Rajasthan
-    </div>
-</div>
-<script>
-async function loadStates() {
-    const stateSelect = document.getElementById('state_id');
-    const response = await fetch('/api/states');
-    const states = await response.json();
-    states.forEach(state => {
-        const option = document.createElement('option');
-        option.value = state.id;
-        option.textContent = state.name;
-        stateSelect.appendChild(option);
-    });
-}
+          <form method="POST" class="login-form">
+            <div class="field-group">
+              <label>Login as</label>
+              <div class="segmented">
+                <label
+                  ><input type="radio" name="role" value="admin" checked /><span
+                    >Admin</span
+                  ></label
+                >
+                <label
+                  ><input type="radio" name="role" value="student" /><span
+                    >Student</span
+                  ></label
+                >
+              </div>
+            </div>
 
-async function loadColleges(stateId) {
-    const collegeSelect = document.getElementById('college_id');
-    collegeSelect.innerHTML = '<option value="">Select College</option>';
-    collegeSelect.disabled = !stateId;
-    if (!stateId) return;
+            <div class="field-group">
+              <label for="state">State</label>
+              <select id="state" name="state_id" required>
+                <option value="">Select state</option>
+              </select>
+            </div>
 
-    const response = await fetch(`/api/colleges/${stateId}`);
-    const colleges = await response.json();
-    colleges.forEach(college => {
-        const option = document.createElement('option');
-        option.value = college.id;
-        option.textContent = college.name;
-        collegeSelect.appendChild(option);
-    });
-}
+            <div class="field-group">
+              <label for="college">College</label>
+              <select id="college" name="college_id" required disabled>
+                <option value="">Select college</option>
+              </select>
+            </div>
 
-document.getElementById('state_id').addEventListener('change', e => loadColleges(e.target.value));
+            <div class="field-group student-only" style="display: none">
+              <label>Student login method</label>
+              <div class="segmented">
+                <label
+                  ><input
+                    type="radio"
+                    name="login_method"
+                    value="roll"
+                    checked
+                  /><span>Roll Number</span></label
+                >
+                <label
+                  ><input type="radio" name="login_method" value="email" /><span
+                    >College Gmail</span
+                  ></label
+                >
+              </div>
+            </div>
 
-function updateLoginMode() {
-    const role = document.querySelector('input[name="role"]:checked').value;
-    const box = document.getElementById('student-method-box');
-    const label = document.getElementById('identifier-label');
-    const input = document.getElementById('identifier');
+            <div class="field-group">
+              <label for="identifier" id="identifierLabel">Admin Email</label>
+              <input
+                id="identifier"
+                name="identifier"
+                type="text"
+                placeholder="admin@college.com"
+                required
+                autocomplete="username"
+              />
+            </div>
 
-    if (role === 'admin') {
-        box.style.display = 'none';
-        label.textContent = 'Admin College Email';
-        input.placeholder = 'admin@college.com';
-    } else {
-        box.style.display = 'block';
-        const method = document.getElementById('login_method').value;
-        label.textContent = method === 'email' ? 'College Email' : 'Roll Number';
-        input.placeholder = method === 'email' ? 'student@college.com' : '23CSE101';
-    }
-}
+            <div class="field-group">
+              <label for="password">Password</label>
+              <div class="password-field">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  required
+                  autocomplete="current-password"
+                />
+                <button type="button" id="togglePassword">Show</button>
+              </div>
+            </div>
 
-document.querySelectorAll('input[name="role"]').forEach(r => r.addEventListener('change', updateLoginMode));
-document.getElementById('login_method').addEventListener('change', updateLoginMode);
-updateLoginMode();
-loadStates();
-</script>
-{% endblock %}
+            <button type="submit" class="btn btn-primary login-button">
+              <span>Sign In</span><b>→</b>
+            </button>
+          </form>
+
+          <div class="demo-credentials">
+            <div>
+              <span class="demo-dot amber"></span><strong>Demo access</strong>
+            </div>
+            <small
+              >Admin: admin@demo-college.com &nbsp;|&nbsp; Password:
+              Admin@123</small
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const state = document.getElementById("state");
+      const college = document.getElementById("college");
+      const roleInputs = document.querySelectorAll('input[name="role"]');
+      const studentOnly = document.querySelector(".student-only");
+      const identifierLabel = document.getElementById("identifierLabel");
+      const identifier = document.getElementById("identifier");
+      const toggle = document.getElementById("togglePassword");
+      const password = document.getElementById("password");
+
+      fetch("/api/states")
+        .then((r) => r.json())
+        .then((data) => {
+          data.forEach((item) => {
+            const opt = document.createElement("option");
+            opt.value = item.id;
+            opt.textContent = item.name;
+            state.appendChild(opt);
+          });
+        });
+
+      state.addEventListener("change", () => {
+        college.disabled = true;
+        college.innerHTML = '<option value="">Loading colleges...</option>';
+        if (!state.value) {
+          college.innerHTML = '<option value="">Select college</option>';
+          return;
+        }
+        fetch("/api/colleges/" + state.value)
+          .then((r) => r.json())
+          .then((data) => {
+            college.innerHTML = '<option value="">Select college</option>';
+            data.forEach((item) => {
+              const opt = document.createElement("option");
+              opt.value = item.id;
+              opt.textContent = item.name;
+              college.appendChild(opt);
+            });
+            college.disabled = false;
+          });
+      });
+
+      function updateRole() {
+        const role = [...roleInputs].find((x) => x.checked)?.value;
+        const student = role === "student";
+        studentOnly.style.display = student ? "" : "none";
+        identifierLabel.textContent = student
+          ? "Roll Number / College Gmail"
+          : "Admin Email";
+        identifier.placeholder = student
+          ? "23CSE101 or college email"
+          : "admin@college.com";
+      }
+      roleInputs.forEach((x) => x.addEventListener("change", updateRole));
+      document.querySelectorAll('input[name="login_method"]').forEach((x) =>
+        x.addEventListener("change", () => {
+          const email =
+            [...document.querySelectorAll('input[name="login_method"]')].find(
+              (x) => x.checked,
+            )?.value === "email";
+          identifierLabel.textContent = email ? "College Gmail" : "Roll Number";
+          identifier.placeholder = email ? "student@college.com" : "23CSE101";
+        }),
+      );
+      toggle.addEventListener("click", () => {
+        password.type = password.type === "password" ? "text" : "password";
+        toggle.textContent = password.type === "password" ? "Show" : "Hide";
+      });
+
+      const glow = document.getElementById("cursorGlow");
+      window.addEventListener("mousemove", (e) => {
+        glow.style.left = e.clientX + "px";
+        glow.style.top = e.clientY + "px";
+      });
+    </script>
+  </body>
+</html>

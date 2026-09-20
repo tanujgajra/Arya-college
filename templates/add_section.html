@@ -1,0 +1,69 @@
+{% extends "base.html" %}{% block title %}Add Section | Arya College{% endblock
+%}{% block page_title %}Add Section{% endblock %}{% block content %}
+<div class="form-page-head">
+  <div>
+    <div class="eyebrow accent-pink">Academic structure</div>
+    <h1 class="page-title">Create section</h1>
+    <p class="page-lead">
+      Build a class group that can later receive subjects and attendance.
+    </p>
+  </div>
+  <a class="btn btn-soft" href="{{ url_for('sections') }}">← Back</a>
+</div>
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+<section class="surface form-surface">
+  <form method="POST" class="form-grid">
+    <div class="field-group">
+      <label>Department</label
+      ><select name="department_id" required>
+        <option value="">Select department</option>
+        {% for department in departments %}
+        <option value="{{ department.id }}">
+          {{ department.code }} — {{ department.name }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Section</label><input name="name" required placeholder="A" />
+    </div>
+    <div class="field-group">
+      <label>Year</label
+      ><select name="year" required>
+        <option value="">Select year</option>
+        <option>1st Year</option>
+        <option>2nd Year</option>
+        <option>3rd Year</option>
+        <option>4th Year</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Semester</label
+      ><select name="semester" required>
+        <option value="">Select semester</option>
+        {% for i in range(1,9) %}
+        <option>
+          {{ i }}{% if i % 2 == 1 %}st{% elif i==2 %}nd{% else %}th{% endif %}
+          Semester
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Academic Session</label
+      ><input
+        name="academic_session"
+        value="2026-27"
+        required
+        placeholder="2026-27"
+      />
+    </div>
+    <div class="form-actions">
+      <a class="btn btn-soft" href="{{ url_for('sections') }}">Cancel</a
+      ><button class="btn btn-primary" type="submit">Create Section →</button>
+    </div>
+  </form>
+</section>
+{% endblock %}

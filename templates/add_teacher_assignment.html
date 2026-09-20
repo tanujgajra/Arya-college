@@ -1,0 +1,107 @@
+{% extends "base.html" %} {% block title %}Create Teacher Assignment | Arya
+College{% endblock %}{% block page_title %}Teacher Assignment{% endblock %} {%
+block content %}
+<div class="form-page-head">
+  <div>
+    <div class="eyebrow accent-red">Academic mapping</div>
+    <h1 class="page-title">Create teacher assignment</h1>
+    <p class="page-lead">
+      Connect a teacher, subject and class section for an academic session.
+    </p>
+  </div>
+  <a class="btn btn-soft" href="{{ url_for('teacher_assignments') }}">← Back</a>
+</div>
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+<section class="surface form-surface">
+  <div class="section-head">
+    <div>
+      <h2>Assignment details</h2>
+      <p>All selections must belong to this college.</p>
+    </div>
+    <span class="status-badge red">MAPPING</span>
+  </div>
+  <form method="POST" class="form-grid">
+    <div class="field-group wide">
+      <label>Teacher / Employee</label
+      ><select name="employee_id" required>
+        <option value="">Select teacher</option>
+        {% for teacher in teachers %}
+        <option value="{{ teacher.id }}">
+          {{ teacher.name }} — {{ teacher.employee_code }} · {{
+          teacher.designation }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Subject</label
+      ><select name="subject_id" required>
+        <option value="">Select subject</option>
+        {% for subject in subjects %}
+        <option value="{{ subject.id }}">
+          {{ subject.subject_code }} — {{ subject.subject_name }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Department Filter</label
+      ><select id="departmentFilter">
+        <option value="">All departments</option>
+        {% for department in departments %}
+        <option value="{{ department.id }}">
+          {{ department.code }} — {{ department.name }}
+        </option>
+        {% endfor %}</select
+      ><small class="field-help">Only filters the section list.</small>
+    </div>
+    <div class="field-group wide">
+      <label>Section</label
+      ><select id="sectionSelect" name="section_id" required>
+        <option value="">Select section</option>
+        {% for section in sections %}
+        <option
+          value="{{ section.id }}"
+          data-department="{{ section.department_id }}"
+        >
+          {{ section.department_code }} — {{ section.name }} — {{ section.year
+          }} — {{ section.semester }} — {{ section.academic_session }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Academic Session</label
+      ><input
+        name="academic_session"
+        value="2026-27"
+        required
+        placeholder="2026-27"
+      />
+    </div>
+    <div class="form-actions">
+      <a class="btn btn-soft" href="{{ url_for('teacher_assignments') }}"
+        >Cancel</a
+      ><button class="btn btn-primary" type="submit">
+        Create Assignment →
+      </button>
+    </div>
+  </form>
+</section>
+{% endblock %} {% block scripts %}
+<script>
+  const df = document.getElementById("departmentFilter");
+  const ss = document.getElementById("sectionSelect");
+  function filterSections() {
+    const d = df.value;
+    [...ss.options].forEach((o, i) => {
+      if (i === 0) return;
+      o.hidden = !!(d && o.dataset.department !== d);
+    });
+    if (ss.selectedOptions[0]?.hidden) ss.value = "";
+  }
+  df?.addEventListener("change", filterSections);
+</script>
+{% endblock %}

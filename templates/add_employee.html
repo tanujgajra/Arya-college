@@ -1,0 +1,156 @@
+{% extends "base.html" %} {% block title %}Add Employee | Arya College{%
+endblock %} {% block page_title %}Add Employee{% endblock %} {% block content %}
+<div class="form-page-head">
+  <div>
+    <div class="eyebrow accent-cyan">People directory</div>
+    <h1 class="page-title">add employee profile</h1>
+    <p class="page-lead">
+      Capture faculty or staff information and responsibilities.
+    </p>
+  </div>
+  <a class="btn btn-soft" href="{{ url_for('employees') }}">← Back</a>
+</div>
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+<section class="surface form-surface">
+  <div class="section-head">
+    <div>
+      <h2>Employee information</h2>
+      <p>Use a unique employee ID and college email.</p>
+    </div>
+    <span class="status-badge cyan">PROFILE</span>
+  </div>
+  <form method="POST" class="form-grid">
+    <div class="field-group">
+      <label>Employee ID</label><input name="employee_code" required />
+    </div>
+    <div class="field-group">
+      <label>Full Name</label><input name="name" required />
+    </div>
+    <div class="field-group">
+      <label>Email</label><input name="email" type="email" required />
+    </div>
+    <div class="field-group">
+      <label>Phone</label
+      ><input name="phone" placeholder="10-digit mobile number" />
+    </div>
+    <div class="field-group">
+      <label>Password</label
+      ><input
+        name="password"
+        type="password"
+        placeholder="Create login password"
+        required
+      />
+    </div>
+    <div class="field-group">
+      <label>Designation</label
+      ><select name="designation" required>
+        <option value="">Select designation</option>
+        <option>Principal</option>
+        <option>Vice Principal</option>
+        <option>HOD</option>
+        <option>Professor</option>
+        <option>Associate Professor</option>
+        <option>Assistant Professor</option>
+        <option>Lecturer</option>
+        <option>Visiting Faculty</option>
+        <option>Accountant</option>
+        <option>Librarian</option>
+        <option>Lab Assistant</option>
+        <option>IT Administrator</option>
+        <option>HR</option>
+        <option>Receptionist</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Department</label
+      ><select name="department_id">
+        <option value="">Select department</option>
+        {% for department in departments %}
+        <option value="{{ department.id }}">
+          {{ department.code }} — {{ department.name }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Joining Date</label><input name="joining_date" type="date" />
+    </div>
+    <div class="field-group">
+      <label>Qualification</label
+      ><input name="qualification" placeholder="M.Tech / PhD / B.Tech" />
+    </div>
+    <div class="field-group">
+      <label>Experience</label><input name="experience" placeholder="5 Years" />
+    </div>
+    <div class="field-group">
+      <label>Salary</label
+      ><input name="salary" type="number" step="0.01" placeholder="55000" />
+    </div>
+    <div class="field-group">
+      <label>Employment Type</label
+      ><select name="employment_type">
+        <option value="">Select type</option>
+        <option>Full Time</option>
+        <option>Part Time</option>
+        <option>Contract</option>
+        <option>Visiting</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label>Status</label
+      ><select name="status">
+        <option selected>Active</option>
+        <option>Inactive</option>
+      </select>
+    </div>
+    <div class="field-group wide">
+      <label>Responsibilities</label>
+      <div class="check-grid">
+        <label class="check-card"
+          ><input
+            type="checkbox"
+            name="responsibilities"
+            value="Subject Teacher"
+          /><span>Subject Teacher</span></label
+        ><label class="check-card"
+          ><input type="checkbox" name="responsibilities" value="Mentor" /><span
+            >Mentor</span
+          ></label
+        ><label class="check-card"
+          ><input
+            type="checkbox"
+            name="responsibilities"
+            value="Class Coordinator"
+          /><span>Class Coordinator</span></label
+        ><label class="check-card"
+          ><input
+            type="checkbox"
+            name="responsibilities"
+            value="Lab Incharge"
+          /><span>Lab Incharge</span></label
+        ><label class="check-card"
+          ><input
+            type="checkbox"
+            name="responsibilities"
+            value="Exam Coordinator"
+          /><span>Exam Coordinator</span></label
+        ><label class="check-card"
+          ><input
+            type="checkbox"
+            name="responsibilities"
+            value="Department Coordinator"
+          /><span>Department Coordinator</span></label
+        >
+      </div>
+    </div>
+    <div class="form-actions">
+      <a class="btn btn-soft" href="{{ url_for('employees') }}">Cancel</a
+      ><button class="btn btn-primary" type="submit">Create Employee →</button>
+    </div>
+  </form>
+</section>
+{% endblock %}
